@@ -5,7 +5,7 @@ import java.util.List;
 
 import umagazyn.dao.DatabaseAdapter;
 import umagazyn.dao.entity.Warehouse;
-import umagazyn.dao.tables.WarehouseTable;
+import umagazyn.dao.table.WarehouseTable;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;

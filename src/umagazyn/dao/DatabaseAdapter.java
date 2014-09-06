@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class DatabaseAdapter {
 
 	public final static String DB_NAME = "umagazyn";
-	public final static int DB_VERSION = 1;
+	public final static int DB_VERSION = 2;
 	
 	private SQLiteDatabase db;
     private Context context;
@@ -28,6 +28,11 @@ public class DatabaseAdapter {
             db = dbHelper.getReadableDatabase();
         }
         return this;
+    }
+    
+    public void clearDb()
+    {
+    	dbHelper.clearDb(db);
     }
  
     public void close() {

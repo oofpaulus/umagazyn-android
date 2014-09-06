@@ -1,7 +1,7 @@
 package umagazyn.dao;
 
-import umagazyn.dao.tables.TableInterface;
-import umagazyn.dao.tables.TableRegister;
+import umagazyn.dao.TableInterface;
+import umagazyn.dao.TableRegister;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,6 +26,16 @@ class DatabaseHelper extends SQLiteOpenHelper {
 			Log.d(DEBUG_TAG, "Create table : " + table.getCreateSQL());
 			db.execSQL(table.getCreateSQL());
 		}
+	}
+	
+	public void clearDb(SQLiteDatabase db) {
+		
+		for (TableInterface table : TableRegister.getTables())
+		{
+			Log.d(DEBUG_TAG, "Drop table : " + table.getDeleteTableSQL());
+			db.execSQL(table.getDeleteTableSQL());
+		}
+		onCreate(db);
 	}
 
 	@Override

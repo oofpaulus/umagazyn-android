@@ -15,7 +15,14 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-
+	
+	     <ListView
+	        android:id="@+id/warehouse_list"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:paddingTop="5dp" >
+	    </ListView>
+        
     </FrameLayout>
 
     <!--

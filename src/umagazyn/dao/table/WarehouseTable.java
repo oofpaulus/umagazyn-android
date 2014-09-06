@@ -1,9 +1,10 @@
-package umagazyn.dao.tables;
+package umagazyn.dao.table;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import umagazyn.dao.DatabaseAdapter;
+import umagazyn.dao.TableInterface;
 import umagazyn.dao.entity.Warehouse;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -11,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class WarehouseTable implements TableInterface {
 
-	private static String tableName = "warehouses";
+	public final static String tableName = "warehouses";
 
 	@Override
 	public String getTableName() {
@@ -40,6 +41,12 @@ public class WarehouseTable implements TableInterface {
 	{
 		ContentValues newValues = new ContentValues();
 		newValues.put("name", name);
+	    return dbAdapter.getDb().insert(tableName, null, newValues);
+	}
+	
+	public static long AddWarehouse(DatabaseAdapter dbAdapter, Warehouse warehouse)
+	{
+		ContentValues newValues = warehouse.GetValues();
 	    return dbAdapter.getDb().insert(tableName, null, newValues);
 	}
 	

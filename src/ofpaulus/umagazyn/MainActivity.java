@@ -1,15 +1,20 @@
 package ofpaulus.umagazyn;
 
+import java.util.List;
+
+import ofpaulus.umagazyn.warehouse.WarehouseArrayAdapter;
 import umagazyn.dao.DatabaseAdapter;
 import umagazyn.dao.entity.Warehouse;
-import umagazyn.dao.tables.WarehouseTable;
+import umagazyn.dao.table.WarehouseTable;
 import android.app.Activity;
 
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,12 +26,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+	private String userName ="";
+	private String securityToken = "";
+	
 	private DatabaseAdapter dbAdapter = null;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -40,7 +49,7 @@ public class MainActivity extends Activity
 
     @Override
     protected void onDestroy() {
-    	//dbAdapter.close();
+    	dbAdapter.close();
     	super.onDestroy();
     }
     
@@ -49,18 +58,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_main);
-
-        //DatabaseAdapter dbAdapter = new DatabaseAdapter(getApplicationContext());
-       // dbAdapter.open();
         
-        
-        // create db
-        
-
-        
-        /*WarehouseTable.AddWarehouse(dbAdapter, "nowya" );
-        WarehouseTable.AddWarehouse(dbAdapter, "starya" );
-*/        
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
                
@@ -70,15 +68,33 @@ public class MainActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        dbAdapter = new DatabaseAdapter(getApplicationContext());
+        dbAdapter.open();
+        
+        List<Warehouse> warehouses =  WarehouseTable.getAllWarehouseAsList(dbAdapter);
+        
+        ListView listWarehouse = (ListView) findViewById( R.id.warehouse_list);
+        listWarehouse.setAdapter(new WarehouseArrayAdapter(this, warehouses) );
+             
+        Intent prevIntent =  getIntent();
+        if (prevIntent != null)
+        {
+	        userName = prevIntent.getStringExtra("username");
+	        securityToken = prevIntent.getStringExtra("securityToken");
+        }
+
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+    	
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
+                
     }
 
     public void onSectionAttached(int number) {

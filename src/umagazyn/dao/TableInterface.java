@@ -1,4 +1,4 @@
-package umagazyn.dao.tables;
+package umagazyn.dao;
 
 public interface TableInterface {
 

@@ -1,8 +1,10 @@
-package umagazyn.dao.tables;
+package umagazyn.dao.table;
+
+import umagazyn.dao.TableInterface;
 
 public class ComponentTable implements TableInterface {
 
-	private static String tableName = "components";
+	public final static String tableName = "components";
 
 	@Override
 	public String getTableName() {
