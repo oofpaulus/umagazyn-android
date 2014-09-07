@@ -10,12 +10,12 @@ import umagazyn.dao.DatabaseAdapter;
 import umagazyn.dao.entity.Warehouse;
 import umagazyn.dao.table.WarehouseTable;
 import umagazyn.network.ServerConnector;
-import umagazyn.network.parts.AuthUser;
-import umagazyn.network.parts.UserWarehouses;
-import umagazyn.network.parts.interfaces.DBCallback;
-import umagazyn.network.parts.interfaces.LoginCallback;
+import umagazyn.network.parts.LoginPart;
+import umagazyn.network.parts.WarehouseContentPart;
+import umagazyn.network.parts.callback.DBContentCallback;
+import umagazyn.network.parts.callback.LoginCallback;
 
-public class DownloadDB implements DBCallback{
+public class DownloadDB implements DBContentCallback{
 
 	private ServerConnector serverConnector = null;
 	final private String dbUrl = "http://192.168.1.101:9000/mobile";
@@ -35,15 +35,15 @@ public class DownloadDB implements DBCallback{
 		} catch (JSONException e) {
 
 		}
-		serverConnector = new ServerConnector(this, dbUrl, new UserWarehouses());
+		serverConnector = new ServerConnector(this, dbUrl, new WarehouseContentPart());
 		serverConnector.execute(jsObject);
 	}
 	
 	@Override
-	public void setUserWarehouse(UserWarehouses userWarehouses) {
-		if (userWarehouses == null)
+	public void setDBContent(WarehouseContentPart warehouseContentPart) {
+		if (warehouseContentPart == null)
 			return;
-		JSONObject result = userWarehouses.getJsonObject();
+		JSONObject result = warehouseContentPart.getJsonObject();
 		if (result == null)
 			return;
 		

@@ -2,9 +2,10 @@ package umagazyn.network.parts;
 
 import org.json.JSONObject;
 
-import umagazyn.network.parts.interfaces.AsyncCallback;
-import umagazyn.network.parts.interfaces.DBCallback;
-import umagazyn.network.parts.interfaces.LoginCallback;
+import umagazyn.network.parts.callback.DBContentCallback;
+import umagazyn.network.parts.callback.AsyncCallback;
+import umagazyn.network.parts.callback.DBContentCallback;
+import umagazyn.network.parts.callback.LoginCallback;
 
 public class CallbacResultPart {
 
@@ -13,22 +14,22 @@ public class CallbacResultPart {
 	
 	}
 	public void CallbackObjectWithJson(AsyncCallback callback, String result, ResultPart resultPart) {
-		if (resultPart instanceof AuthUser)
+		if (resultPart instanceof LoginPart)
 		{
-			AuthUser authUser = (AuthUser)resultPart;
-			authUser.FillByJson(result);
+			LoginPart loginPart = (LoginPart)resultPart;
+			loginPart.FillByJson(result);
 			if (callback instanceof LoginCallback)
 			{
-				((LoginCallback)callback).setLoginCallback(authUser);
+				((LoginCallback)callback).setLoginCallback(loginPart);
 			}
 		}
-		if (resultPart instanceof UserWarehouses)
+		if (resultPart instanceof WarehouseContentPart)
 		{
-			UserWarehouses warehouses = (UserWarehouses)resultPart;
+			WarehouseContentPart warehouses = (WarehouseContentPart)resultPart;
 			warehouses.FillByJson(result);
-			if (callback instanceof DBCallback)
+			if (callback instanceof DBContentCallback)
 			{
-				((DBCallback)callback).setUserWarehouse(warehouses);
+				((DBContentCallback)callback).setDBContent(warehouses);
 			}
 		}
 		

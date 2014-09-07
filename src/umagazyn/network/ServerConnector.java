@@ -16,8 +16,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import umagazyn.network.parts.CallbacResultPart;
-import umagazyn.network.parts.interfaces.AsyncCallback;
-import umagazyn.network.parts.interfaces.LoginCallback;
+import umagazyn.network.parts.callback.AsyncCallback;
+import umagazyn.network.parts.callback.LoginCallback;
 import umagazyn.network.parts.ResultPart;
 
 import android.os.AsyncTask;
@@ -25,16 +25,15 @@ import android.util.Log;
 
 public class ServerConnector extends AsyncTask<JSONObject ,Void,String> {
 	
-	private ResultPart resultPart[] = null;
+	private ResultPart resultPartList [] = null;
 	private AsyncCallback callback;
 	private String url;
 	
-	public ServerConnector(AsyncCallback callback, String url, ResultPart ... resultPart)
+	public ServerConnector(AsyncCallback callback, String url, ResultPart ... resultPartList )
 	{
-		this.resultPart = resultPart;
+		this.resultPartList  = resultPartList ;
 		this.callback = callback;
 		this.url = url;
-		
 	}
 	
 	private static HttpResponse makeRequest(String uri, String json) {
@@ -95,7 +94,7 @@ public class ServerConnector extends AsyncTask<JSONObject ,Void,String> {
 		super.onPostExecute(result);
 		
 		CallbacResultPart callbackResult = new CallbacResultPart();
-		for (ResultPart rPart : resultPart )
+		for (ResultPart rPart : resultPartList  )
 		{
 			callbackResult.CallbackObjectWithJson(callback, result, rPart);
 		}

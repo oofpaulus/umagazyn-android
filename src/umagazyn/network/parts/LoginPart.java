@@ -3,10 +3,10 @@ package umagazyn.network.parts;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AuthUser extends ResultPart {
+public class LoginPart extends ResultPart {
 
 	protected static ResultPart GetObject() {
-		return new AuthUser();
+		return new LoginPart();
 	}
 
 	private String token;

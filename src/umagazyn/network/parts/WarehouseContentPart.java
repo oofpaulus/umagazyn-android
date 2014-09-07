@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class UserWarehouses extends ResultPart {
+public class WarehouseContentPart extends ResultPart {
 
 	private JSONObject jsonObject = null;
 	

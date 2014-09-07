@@ -53,9 +53,9 @@ import org.json.JSONObject;
 
 import umagazyn.dao.DatabaseAdapter;
 import umagazyn.network.ServerConnector;
-import umagazyn.network.parts.AuthUser;
-import umagazyn.network.parts.interfaces.AsyncCallback;
-import umagazyn.network.parts.interfaces.LoginCallback;
+import umagazyn.network.parts.LoginPart;
+import umagazyn.network.parts.callback.AsyncCallback;
+import umagazyn.network.parts.callback.LoginCallback;
 
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, LoginCallback{
 
@@ -186,7 +186,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 			showProgress(true);
 			
 			
-			ServerConnector serverConnector = new ServerConnector(this, "http://192.168.1.101:9000/mobile/login", new AuthUser());
+			ServerConnector serverConnector = new ServerConnector(this, "http://192.168.1.101:9000/mobile/login", new LoginPart());
 			JSONObject params = new JSONObject();
 			try {
 				params.put("email", email);
@@ -201,11 +201,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 	}
 	
 	@Override
-	public void setLoginCallback(AuthUser authUser) {
-		
+	public void setLoginCallback(LoginPart	loginPart) {
+			
 		showProgress(false);
-		securityToken = authUser.getToken();
-		userName = authUser.getName();
+		securityToken = loginPart.getToken();
+		userName = loginPart.getName();
 	
 		DownloadDB dbDownload = new DownloadDB(securityToken, dbAdapter, this);	
 		
@@ -324,6 +324,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
 		mEmailView.setAdapter(adapter);
 	}
+
+
 
 
 
